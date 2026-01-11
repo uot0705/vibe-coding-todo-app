@@ -111,6 +111,25 @@
   color: #6b7480;
 }
 
+.deleted {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed #d6dde8;
+}
+
+.deleted-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: #4a5562;
+  font-weight: 600;
+}
+
+.deleted-list {
+  margin: 0;
+  padding-left: 16px;
+  color: #6b7480;
+}
+
 @media (max-width: 600px) {
   .todo-form {
     flex-direction: column;

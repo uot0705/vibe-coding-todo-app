@@ -13,7 +13,8 @@ describe('AppComponent', () => {
           useValue: {
             list: () => of([]),
             create: () => of({ id: 1, title: 'Test', completed: false }),
-            delete: () => of(void 0)
+            delete: () => of({ id: 1, title: 'Test', completed: false }),
+            listDeleted: () => of([])
           }
         }
       ]

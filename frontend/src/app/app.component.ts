@@ -12,6 +12,7 @@ import { Todo, TodoService } from './todo.service';
 })
 export class AppComponent implements OnInit {
   todos: Todo[] = [];
+  deletedTodos: Todo[] = [];
   newTitle = '';
   isLoading = false;
   errorMessage = '';
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
   // 起動時に一覧を読み込む。
   ngOnInit(): void {
     this.loadTodos();
+    this.loadDeleted();
   }
 
   // 最新の一覧を取得する。
@@ -38,6 +40,18 @@ export class AppComponent implements OnInit {
       },
       complete: () => {
         this.isLoading = false;
+      }
+    });
+  }
+
+  // 最近削除したTodoを取得する。
+  loadDeleted(): void {
+    this.todoService.listDeleted().subscribe({
+      next: (todos) => {
+        this.deletedTodos = todos;
+      },
+      error: () => {
+        this.errorMessage = '削除履歴の取得に失敗しました。';
       }
     });
   }
@@ -67,10 +81,12 @@ export class AppComponent implements OnInit {
     this.todoService.delete(todo.id).subscribe({
       next: () => {
         this.todos = this.todos.filter((item) => item.id !== todo.id);
+        this.loadDeleted();
       },
       error: () => {
         this.errorMessage = '削除に失敗しました。';
       }
     });
   }
+
 }

@@ -29,5 +29,12 @@
     </ul>
 
     <p class="empty" *ngIf="!isLoading && !todos.length">まだTodoがありません。</p>
+
+    <div class="deleted" *ngIf="deletedTodos.length">
+      <p class="deleted-title">最近削除したTODO</p>
+      <ul class="deleted-list">
+        <li *ngFor="let todo of deletedTodos">{{ todo.title }}</li>
+      </ul>
+    </div>
   </section>
 </div>

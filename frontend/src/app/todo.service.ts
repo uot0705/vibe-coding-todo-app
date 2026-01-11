@@ -8,6 +8,7 @@ export interface Todo {
   id: number;
   title: string;
   completed: boolean;
+  deleted_at?: string | null;
   created_at?: string;
   updated_at?: string;
 }
@@ -33,7 +34,12 @@ export class TodoService {
   }
 
   // Todoを削除する。
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/todos/${id}`);
+  delete(id: number): Observable<Todo> {
+    return this.http.delete<Todo>(`${this.baseUrl}/todos/${id}`);
+  }
+
+  // 最近削除したTodoを取得する。
+  listDeleted(): Observable<Todo[]> {
+    return this.http.get<Todo[]>(`${this.baseUrl}/todos/deleted`);
   }
 }

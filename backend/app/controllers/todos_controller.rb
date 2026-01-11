@@ -3,7 +3,13 @@ class TodosController < ApplicationController
 
   # Todo一覧を返す。
   def index
-    todos = Todo.order(created_at: :desc)
+    todos = Todo.active.order(created_at: :desc)
+    render json: todos
+  end
+
+  # 最近削除したTodoを返す。
+  def deleted
+    todos = Todo.deleted.order(deleted_at: :desc).limit(5)
     render json: todos
   end
 
@@ -20,8 +26,11 @@ class TodosController < ApplicationController
 
   # Todoを削除する。
   def destroy
-    @todo.destroy
-    head :no_content
+    if @todo.update(deleted_at: Time.current)
+      render json: @todo
+    else
+      render json: { errors: @todo.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   private
